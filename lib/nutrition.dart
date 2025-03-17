@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Workout extends StatelessWidget {
-  const Workout({super.key});
+class Nutrition extends StatelessWidget {
+  const Nutrition({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class Workout extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context); // Go back to previous page
           },
-          child: const Text('Go Back From Workout'),
+          child: const Text('Go Back From Nutrition'),
         ),
       ),
     );

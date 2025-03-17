@@ -1,5 +1,9 @@
+import 'package:bodysync/community.dart';
+import 'package:bodysync/nutrition.dart';
+import 'package:bodysync/progress_tracking.dart';
 import 'package:flutter/material.dart';
 import 'widgets/exercise_card.dart';
+import 'launch_page.dart';
 import 'workout.dart';
 
 void main() {
@@ -13,12 +17,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
+      title: 'BodySync',
+      debugShowCheckedModeBanner: false, // Fix misplaced property
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Home Page'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LaunchPage(),
+        '/home': (context) => const MyHomePage(title: 'Home Page'),
+      },
     );
   }
 }
@@ -52,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 14, top: 30),
                     child: Text(
-                      'Hi Fitfreak',
+                      'Hi \$Name',
                       style: TextStyle(
                         fontSize: 27,
                         fontWeight: FontWeight.bold,
@@ -69,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
             bottom: 100,
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(left: 22),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     Text(
@@ -79,12 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 20,
                       ),
                     ),
-                    Center(
-                      child: SizedBox(
-                        height: 660,
-                        width: 300,
-                        child: Image.asset('assets/Dummy_model.png'),
-                      ),
+                    SizedBox(
+                      height: 625,
+                      width: 300,
+                      child: Image.asset('assets/Dummy_model.png'),
                     ),
 
                     Align(
@@ -103,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         children: [
                           ExerciseCard(
-                            exerciseName: 'Push Ups',
+                            exerciseName: 'Push Up',
                             time: '10 min',
                             calories: '50',
                             onTap: () {
@@ -179,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Workout(),
+                          builder: (context) => const LaunchPage(),
                         ),
                       );
                     },
@@ -194,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Workout(),
+                          builder: (context) => const Community(),
                         ),
                       );
                     },
@@ -209,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Workout(),
+                          builder: (context) => const Nutrition(),
                         ),
                       );
                     },
@@ -224,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Workout(),
+                          builder: (context) => const ProgressTracking(),
                         ),
                       );
                     },
