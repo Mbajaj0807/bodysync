@@ -1,3 +1,4 @@
+import 'package:bodysync/setup(1).dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/nutrition.dart';
@@ -140,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Workout(),
+                          builder: (context) => const SetUp(),
                         ),
                       );
                     },
