@@ -1,4 +1,4 @@
-import 'package:bodysync/setup(1).dart';
+import 'package:bodysync/setup_1.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/nutrition.dart';
