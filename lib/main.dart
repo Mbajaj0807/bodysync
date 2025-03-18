@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'launch_page.dart';
 import 'homepage.dart';
 import 'login_page.dart';
+import 'signup_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const Page0(),
         '/myhomepage': (context) => const MyHomePage(title: 'Home Page'),
         LoginPage.routeName: (context) => const LoginPage(),
+        SignupPage.routeName: (context) => const SignupPage(),
       },
     );
   }

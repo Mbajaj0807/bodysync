@@ -76,7 +76,9 @@ class Page0 extends StatelessWidget {
               height: 70,
 
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/signup');
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromRGBO(226, 241, 99, 1),
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),

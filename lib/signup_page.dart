@@ -1,43 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-  static const String routeName = '/login';
+class SignupPage extends StatelessWidget {
+  const SignupPage({super.key});
+  static const String routeName = '/signup';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(35, 35, 35, 1),
+        iconTheme: IconThemeData(
+          color: Color.fromRGBO(226, 241, 99, 1),
+          size: 30,
+        ),
+      ),
       backgroundColor: Color.fromRGBO(35, 35, 35, 1), // Background color
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/login_bg.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
           Positioned(
-            top: 40, // Adjust based on your layout
-            left: 16,
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Color.fromRGBO(226, 241, 99, 1),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * .2,
+            top: MediaQuery.of(context).size.height * .1,
             left: 20,
             right: 20,
             child: Text(
-              'Welcome \n Elevate your Fitness - One Login At A Time',
+              'Welcome \n Let\'s Start',
               style: GoogleFonts.poppins(
                 fontSize: 18,
                 color: Colors.white,
@@ -50,7 +36,7 @@ class LoginPage extends StatelessWidget {
 
           Center(
             child: Container(
-              height: 275,
+              height: 400,
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(255, 255, 255, .5),
@@ -62,13 +48,25 @@ class LoginPage extends StatelessWidget {
                   children: [
                     TextField(
                       decoration: InputDecoration(
+                        labelText: 'Name',
+                        labelStyle: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
                         labelText: 'Username or Email',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                     ),
                     TextField(
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: 'Password ',
+                        labelStyle: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -86,12 +84,20 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Log In',
+                          'Sign up',
                           style: GoogleFonts.poppins(
                             fontSize: 20,
                             color: Color.fromRGBO(226, 241, 99, 1),
                           ),
                         ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: InkWell(
+                        onTap: () {},
+                        mouseCursor: SystemMouseCursors.click,
+                        child: Text('Forgot Password'),
                       ),
                     ),
                   ],

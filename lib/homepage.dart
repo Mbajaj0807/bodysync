@@ -9,7 +9,7 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
- static const String routeName = '/myhomepage';
+  static const String routeName = '/myhomepage';
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -83,6 +83,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           ExerciseCard(
                             exerciseName: 'Push Up',
+                            time: '10 min',
+                            calories: '50',
+                            onTap: () {
+                              print('Pressed');
+                            },
+                          ),
+                          ExerciseCard(
+                            exerciseName: 'Push Ups',
+                            time: '10 min',
+                            calories: '50',
+                            onTap: () {
+                              print('Pressed');
+                            },
+                          ),
+                          ExerciseCard(
+                            exerciseName: 'Push Ups',
                             time: '10 min',
                             calories: '50',
                             onTap: () {
