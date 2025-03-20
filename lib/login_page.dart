@@ -1,18 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:bodysync/Services/authentication.dart';
+import 'homepage.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
   static const String routeName = '/login';
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool isLoading = false;
+
+  void loginUser() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String res = await AuthServices().loginUser(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    if (res == 'success') {
+      print('Login successful');
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MyHomePage(title: 'Home Page'),
+        ),
+      );
+    } else {
+      print('Login failed: $res');
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(res)));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(35, 35, 35, 1), // Background color
+      backgroundColor: const Color.fromRGBO(35, 35, 35, 1), // Background color
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/login_bg.png'),
                 fit: BoxFit.cover,
@@ -20,16 +62,14 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 40, // Adjust based on your layout
+            top: 40,
             left: 16,
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
                 color: Color.fromRGBO(226, 241, 99, 1),
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.pop(context),
             ),
           ),
           Positioned(
@@ -47,7 +87,6 @@ class LoginPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-
           Center(
             child: Container(
               height: 275,
@@ -61,37 +100,53 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
-                      decoration: InputDecoration(
+                      controller: emailController,
+                      decoration: const InputDecoration(
                         labelText: 'Username or Email',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                     ),
                     TextField(
-                      decoration: InputDecoration(
+                      controller: passwordController,
+                      decoration: const InputDecoration(
                         labelText: 'Password',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
+                      obscureText: true,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/myhomepage');
-                        },
+                        onPressed: isLoading ? null : loginUser,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(137, 108, 254, 1),
-                          padding: EdgeInsets.symmetric(
+                          backgroundColor: const Color.fromRGBO(
+                            137,
+                            108,
+                            254,
+                            1,
+                          ),
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 30,
                             vertical: 15,
                           ),
                         ),
-                        child: Text(
-                          'Log In',
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            color: Color.fromRGBO(226, 241, 99, 1),
-                          ),
-                        ),
+                        child:
+                            isLoading
+                                ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                                : Text(
+                                  'Log In',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    color: const Color.fromRGBO(
+                                      226,
+                                      241,
+                                      99,
+                                      1,
+                                    ),
+                                  ),
+                                ),
                       ),
                     ),
                   ],

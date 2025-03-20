@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/nutrition.dart';
 import 'package:bodysync/progress_tracking.dart';
-import 'package:bodysync/workout.dart';
+// import 'package:bodysync/workout.dart';
 import 'widgets/exercise_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -13,6 +15,19 @@ class MyHomePage extends StatefulWidget {
   static const String routeName = '/myhomepage';
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+}
+
+Future<String?> getUserName() async {
+  var user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    var data =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+    return data['name']; // Ensure the 'name' field exists in Firestore
+  }
+  return null;
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -30,20 +45,27 @@ class _MyHomePageState extends State<MyHomePage> {
               key: const ValueKey('AppBar'),
               height: 120,
               color: const Color.fromRGBO(35, 35, 35, 1),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 14, top: 30),
-                    child: Text(
-                      'Hi \$Name',
-                      style: const TextStyle(
-                        fontSize: 27,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(137, 108, 254, 1),
+              child: FutureBuilder<String?>(
+                future: getUserName(),
+                builder: (context, snapshot) {
+                  String displayname = snapshot.data ?? 'Guest';
+
+                  return Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 14, top: 30),
+                        child: Text(
+                          'Hi $displayname',
+                          style: const TextStyle(
+                            fontSize: 27,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(137, 108, 254, 1),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -140,9 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const SetUp(),
-                        ),
+                        MaterialPageRoute(builder: (context) => const SetUp()),
                       );
                     },
                     child: Image.asset(

@@ -1,21 +1,82 @@
+import 'package:bodysync/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'Services/authentication.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
+
   static const String routeName = '/signup';
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
+  bool isLoading = false;
+
+  void signUpUser() async {
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        confirmPasswordController.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('All fields are required')));
+      return;
+    }
+
+    if (passwordController.text != confirmPasswordController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    String res = await AuthServices().signUpUser(
+      email: emailController.text.trim(),
+      name: nameController.text.trim(),
+      password: passwordController.text,
+    );
+
+    if (res == "success") {
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const MyHomePage(title: 'Homepage'),
+        ),
+      );
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(res)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(35, 35, 35, 1),
-        iconTheme: IconThemeData(
+        backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+        iconTheme: const IconThemeData(
           color: Color.fromRGBO(226, 241, 99, 1),
           size: 30,
         ),
       ),
-      backgroundColor: Color.fromRGBO(35, 35, 35, 1), // Background color
+      backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
       body: Stack(
         children: [
           Positioned(
@@ -33,7 +94,6 @@ class SignupPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-
           Center(
             child: Container(
               height: 400,
@@ -47,49 +107,68 @@ class SignupPage extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
-                      decoration: InputDecoration(
+                      controller: nameController,
+                      decoration: const InputDecoration(
                         labelText: 'Name',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                     ),
                     TextField(
-                      decoration: InputDecoration(
+                      controller: emailController,
+                      decoration: const InputDecoration(
                         labelText: 'Username or Email',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                     ),
                     TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Password ',
+                      controller: passwordController,
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
+                      obscureText: true,
                     ),
                     TextField(
-                      decoration: InputDecoration(
+                      controller: confirmPasswordController,
+                      decoration: const InputDecoration(
                         labelText: 'Confirm Password',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
+                      obscureText: true,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/myhomepage');
-                        },
+                        onPressed: isLoading ? null : signUpUser,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(137, 108, 254, 1),
-                          padding: EdgeInsets.symmetric(
+                          backgroundColor: const Color.fromRGBO(
+                            137,
+                            108,
+                            254,
+                            1,
+                          ),
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 30,
                             vertical: 15,
                           ),
                         ),
-                        child: Text(
-                          'Sign up',
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            color: Color.fromRGBO(226, 241, 99, 1),
-                          ),
-                        ),
+                        child:
+                            isLoading
+                                ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                                : Text(
+                                  'Sign up',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    color: const Color.fromRGBO(
+                                      226,
+                                      241,
+                                      99,
+                                      1,
+                                    ),
+                                  ),
+                                ),
                       ),
                     ),
                     Padding(
@@ -97,7 +176,7 @@ class SignupPage extends StatelessWidget {
                       child: InkWell(
                         onTap: () {},
                         mouseCursor: SystemMouseCursors.click,
-                        child: Text('Forgot Password'),
+                        child: const Text('Forgot Password'),
                       ),
                     ),
                   ],
