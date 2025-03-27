@@ -68,4 +68,12 @@ class AuthServices {
     }
     return res;
   }
+  Future<void> signOut() async {
+    try {
+      await _auth.signOut();
+      print("User signed out successfully");
+    } catch (e) {
+      print("Error signing out: $e");
+    }
+  }
 }

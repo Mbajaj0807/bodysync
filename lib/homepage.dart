@@ -7,6 +7,7 @@ import 'package:bodysync/progress_tracking.dart';
 import 'widgets/exercise_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Services/authentication.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -17,6 +18,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+final AuthServices authServices = AuthServices();
 Future<String?> getUserName() async {
   var user = FirebaseAuth.instance.currentUser;
   if (user != null) {
@@ -139,6 +141,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                     ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await authServices.signOut();
+                        if (mounted) {
+                          Navigator.pushReplacementNamed(context, "/login");
+                        }
+                      },
+                      child: Text('Logout'),
+                    ),
+                    Container(height: 500),
                   ],
                 ),
               ),

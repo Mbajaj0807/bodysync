@@ -1,3 +1,4 @@
+import 'package:bodysync/setup_2.dart';
 import 'package:flutter/material.dart';
 
 class SetUp extends StatelessWidget {
@@ -74,6 +75,10 @@ class SetUp extends StatelessWidget {
                 width: 180,
                 child: ElevatedButton(
                   onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SetUp2()),
+                    );
                     print("Next page");
                   },
                   style: ElevatedButton.styleFrom(

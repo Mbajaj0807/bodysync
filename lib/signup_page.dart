@@ -1,7 +1,7 @@
-import 'package:bodysync/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'Services/authentication.dart';
+import 'package:bodysync/setup_1.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -55,7 +55,7 @@ class _SignupPageState extends State<SignupPage> {
       });
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: 'Homepage'),
+          builder: (context) => const SetUp(),
         ),
       );
     } else {
