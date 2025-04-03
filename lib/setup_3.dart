@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:bodysync/homepage.dart'; // Import MyHomePage
+// import 'package:bodysync/homepage.dart'; // Import MyHomePage
 
 enum Goal { loseweight, gainweight, musclemassgain, tonedbody }
 
