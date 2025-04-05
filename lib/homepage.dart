@@ -1,7 +1,5 @@
 import 'package:bodysync/Dashboard_card.dart';
 import 'package:bodysync/profile_page.dart';
-import 'package:bodysync/setup_1.dart';
-import 'package:bodysync/Services/weight_graph.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/nutrition.dart';
