@@ -1,8 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthServices {
-  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> signUpUser({
@@ -16,10 +17,21 @@ class AuthServices {
         UserCredential cred = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
 
+        // Generate a userTag like manan#3721
+        String randomDigits = (Random().nextInt(9000) + 1000).toString();
+        String userTag = '${name.toLowerCase()}#$randomDigits';
+
         await FirebaseFirestore.instance
             .collection('users')
             .doc(cred.user!.uid)
-            .set({'name': name, 'email': email, 'createdAt': DateTime.now()});
+            .set({
+              'uid': cred.user!.uid,
+              'name': name,
+              'email': email,
+              'userTag': userTag,
+              'friends': [],
+              'createdAt': DateTime.now(),
+            });
 
         res = 'success';
       } else {
@@ -68,6 +80,7 @@ class AuthServices {
     }
     return res;
   }
+
   Future<void> signOut() async {
     try {
       await _auth.signOut();

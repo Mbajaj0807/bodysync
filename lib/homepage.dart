@@ -1,4 +1,7 @@
+import 'package:bodysync/Dashboard_card.dart';
+import 'package:bodysync/profile_page.dart';
 import 'package:bodysync/setup_1.dart';
+import 'package:bodysync/Services/weight_graph.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/nutrition.dart';
@@ -7,7 +10,7 @@ import 'widgets/exercise_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Services/authentication.dart';
-import 'data_fetch.dart';
+import 'Services/data_fetch.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -20,6 +23,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 final AuthServices authServices = AuthServices();
+Widget _verticalDivider() {
+  return const VerticalDivider(
+    color: Color.fromRGBO(226, 241, 99, 1),
+    thickness: 1.8,
+    width: 10,
+    indent: 30,
+    endIndent: 30,
+  );
+}
+
+Widget _buildNavItem(String assetPath, VoidCallback onTap) {
+  return InkWell(
+    onTap: onTap,
+    child: Image.asset(assetPath, height: 35, width: 35),
+  );
+}
 
 // ✅ Function to Get User's Name from Firestore
 Future<String?> getUserName() async {
@@ -47,50 +66,67 @@ class _MyHomePageState extends State<MyHomePage> {
           decoration: BoxDecoration(color: Color.fromRGBO(35, 35, 35, 1)),
           child: ListView(
             children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(137, 108, 254, 1),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.white,
+              SizedBox(
+                height: 190,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(137, 108, 254, 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    FutureBuilder<Map<String, dynamic>>(
-                      future: DataFetch().fetchUserData(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text('Error: ${snapshot.error}'),
+                      FutureBuilder<Map<String, dynamic>>(
+                        future: DataFetch().fetchUserData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text('Error: ${snapshot.error}'),
+                            );
+                          }
+                          if (!snapshot.hasData || snapshot.data == null) {
+                            return Center(child: Text('No Data Available'));
+                          }
+
+                          //  Extract user data safely
+                          Map<String, dynamic> userData = snapshot.data!;
+                          String displayName = userData['name'] ?? 'Guest';
+                          String userTag = userData['userTag'] ?? 'Unknown0000';
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Hi, $displayName',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  'User id: $userTag',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
-                        }
-                        if (!snapshot.hasData || snapshot.data == null) {
-                          return Center(child: Text('No Data Available'));
-                        }
-
-                        //  Extract user data safely
-                        Map<String, dynamic> userData = snapshot.data!;
-                        String displayName = userData['name'] ?? 'Guest';
-
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Text(
-                            'Hi, $displayName',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
               ListTile(
@@ -112,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () async {
                     await authServices.signOut();
                     if (mounted) {
-                      Navigator.pushReplacementNamed(context, "/page0");
+                      Navigator.pushReplacementNamed(context, "/login");
                     }
                   },
                 ),
@@ -139,6 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ? snapshot.data!
                       : 'Guest';
               return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 40, top: 20),
@@ -150,6 +187,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Color.fromRGBO(137, 108, 254, 1),
                       ),
                     ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 29, right: 15),
+                    child: _buildNavItem('assets/profile-user.png', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfilePage(),
+                        ),
+                      );
+                    }),
                   ),
                 ],
               );
@@ -181,6 +229,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 300,
                       child: Image.asset('assets/Dummy_model.png'),
                     ),
+                    DashboardCard(),
+
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -192,6 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                     ),
+
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
@@ -240,62 +291,36 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SetUp(),
-                          ),
-                        ),
-                    child: Image.asset(
-                      'assets/icon1.png',
-                      height: 80,
-                      width: 80,
-                    ),
-                  ),
-                  InkWell(
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Community(),
-                          ),
-                        ),
-                    child: Image.asset(
-                      'assets/icon2.png',
-                      height: 80,
-                      width: 80,
-                    ),
-                  ),
-                  InkWell(
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Nutrition(),
-                          ),
-                        ),
-                    child: Image.asset(
-                      'assets/icon3.png',
-                      height: 80,
-                      width: 80,
-                    ),
-                  ),
-                  InkWell(
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ProgressTracking(),
-                          ),
-                        ),
-                    child: Image.asset(
-                      'assets/icon4.png',
-                      height: 80,
-                      width: 80,
-                    ),
-                  ),
+                  _buildNavItem('assets/icon1.png', () {
+                    print('Pressed');
+                  }),
+                  _verticalDivider(),
+                  _buildNavItem('assets/icon2.png', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Community(),
+                      ),
+                    );
+                  }),
+                  _verticalDivider(),
+                  _buildNavItem('assets/icon3.png', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Nutrition(),
+                      ),
+                    );
+                  }),
+                  _verticalDivider(),
+                  _buildNavItem('assets/icon4.png', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProgressTracking(),
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),

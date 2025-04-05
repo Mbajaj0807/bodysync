@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bodysync/Services/authentication.dart';
 import 'homepage.dart';
+import 'page0.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,11 +33,12 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         isLoading = false;
       });
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) => const MyHomePage(title: 'Home Page'),
         ),
+        (Route<dynamic> route) => false,
       );
     } else {
       print('Login failed: $res');
@@ -69,7 +71,15 @@ class _LoginPageState extends State<LoginPage> {
                 Icons.arrow_back,
                 color: Color.fromRGBO(226, 241, 99, 1),
               ),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.pop(context); // First close the dialog
+                Future.delayed(Duration.zero, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => Page0()),
+                  );
+                });
+              },
             ),
           ),
           Positioned(

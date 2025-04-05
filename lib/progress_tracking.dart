@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Services/weight_graph.dart';
 
 class ProgressTracking extends StatelessWidget {
   const ProgressTracking({super.key});
@@ -6,13 +7,14 @@ class ProgressTracking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Color.fromRGBO(137, 108, 254, 1)),
       backgroundColor: Color.fromRGBO(35, 35, 35, 1),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context); // Go back to previous page
-          },
-          child: const Text('Go Back From Progress Tracking'),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 2),
+        child: Center(
+          child: Column(
+            children: [SizedBox(height: 300, child: WeightGraph())],
+          ),
         ),
       ),
     );
