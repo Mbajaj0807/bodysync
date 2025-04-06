@@ -15,19 +15,27 @@ class Community extends StatelessWidget {
       context: context,
       builder:
           (_) => AlertDialog(
-            backgroundColor: const Color.fromARGB(255, 240, 240, 255),
-            title: const Text("Create Post"),
+            backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+            title: const Text(
+              "Create Post",
+              style: TextStyle(color: Colors.white),
+            ),
             content: TextField(
+              style: const TextStyle(color: Colors.white),
               controller: controller,
               maxLines: 4,
               decoration: const InputDecoration(
+                hintStyle: TextStyle(color: Colors.white),
                 hintText: "What's on your mind?",
                 border: OutlineInputBorder(),
               ),
             ),
             actions: [
               TextButton(
-                child: const Text("Cancel"),
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () => Navigator.pop(context),
               ),
               ElevatedButton(
@@ -38,7 +46,6 @@ class Community extends StatelessWidget {
 
                   final user = FirebaseAuth.instance.currentUser;
                   if (user != null) {
-                    // Fetch userTag from Firestore
                     final userDoc =
                         await FirebaseFirestore.instance
                             .collection('users')
@@ -50,7 +57,7 @@ class Community extends StatelessWidget {
                     if (userTag != null) {
                       await FirebaseFirestore.instance.collection('posts').add({
                         'uid': user.uid,
-                        'userTag': userTag, // Add this
+                        'userTag': userTag,
                         'content': content,
                         'timestamp': Timestamp.now(),
                         'likes': 0,

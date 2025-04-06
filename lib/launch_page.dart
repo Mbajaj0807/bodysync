@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LaunchPage extends StatelessWidget {
   const LaunchPage({super.key});
 
+  Future<bool> checkLoginStatus() async {
+    await Future.delayed(const Duration(seconds: 1)); // Simulate a small delay
+    final user = FirebaseAuth.instance.currentUser;
+    return user != null; // true if user is logged in
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Navigate to the home screen after 2 seconds
-    Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, '/home');
+    // Delay for splash + check login
+    Future.delayed(const Duration(seconds: 5), () async {
+      bool isLoggedIn = await checkLoginStatus();
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(
+          context,
+          isLoggedIn ? '/authenticated' : '/unauthenticated',
+        );
+      }
     });
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(35, 35, 35, 1), // Background color
+      backgroundColor: Color.fromRGBO(35, 35, 35, 1),
       body: Align(
         alignment: Alignment.center,
         child: Column(
@@ -21,7 +34,7 @@ class LaunchPage extends StatelessWidget {
             Container(
               height: 300,
               width: 300,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/logo.png'),
                   fit: BoxFit.contain,
@@ -30,7 +43,7 @@ class LaunchPage extends StatelessWidget {
             ),
             RichText(
               text: TextSpan(
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 25,
                   color: Color.fromRGBO(249, 249, 249, 1),
                 ),
@@ -39,7 +52,7 @@ class LaunchPage extends StatelessWidget {
                     text: 'Dive Into The World Of',
                     style: GoogleFonts.poppins(
                       fontSize: 25,
-                      color: Color.fromRGBO(137, 108, 254, 1),
+                      color: const Color.fromRGBO(137, 108, 254, 1),
                     ),
                   ),
                   TextSpan(
@@ -47,7 +60,7 @@ class LaunchPage extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(226, 241, 99, 1),
+                      color: const Color.fromRGBO(226, 241, 99, 1),
                     ),
                   ),
                 ],

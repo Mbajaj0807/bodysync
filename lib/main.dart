@@ -25,11 +25,12 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const LaunchPage(),
-        '/home': (context) => const Page0(),
-        '/myhomepage': (context) => const MyHomePage(title: 'Home Page'),
-        LoginPage.routeName: (context) => const LoginPage(),
-        SignupPage.routeName: (context) => SignupPage(),
+        '/': (context) => const LaunchPage(), // initial route
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => SignupPage(),
+        '/unauthenticated': (context) => const Page0(), // not logged in
+        '/authenticated':
+            (context) => const MyHomePage(title: 'Home Page'), // logged in
       },
     );
   }

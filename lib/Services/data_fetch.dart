@@ -17,8 +17,19 @@ class DataFetch {
                 .doc(currentUser.uid) // Use the logged-in user's ID
                 .get();
 
-        // Return the data as a map
-        return documentSnapshot.data() as Map<String, dynamic>;
+        // Check if the document exists and contains data
+        if (documentSnapshot.exists) {
+          var data = documentSnapshot.data(); // Get data as dynamic type
+
+          // Check if data is not null and is a Map<String, dynamic>
+          if (data != null && data is Map<String, dynamic>) {
+            return data;
+          } else {
+            throw Exception("User data is not in the expected format.");
+          }
+        } else {
+          throw Exception("No user data found for this user.");
+        }
       } catch (e) {
         throw Exception("Error fetching user data: $e");
       }

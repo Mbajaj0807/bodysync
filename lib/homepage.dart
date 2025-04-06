@@ -223,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     SizedBox(
-                      height: 625,
+                      height: 650,
                       width: 300,
                       child: Image.asset('assets/Dummy_model.png'),
                     ),
@@ -281,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
             right: 5,
             child: Container(
               key: const ValueKey('navigation'),
-              height: 120,
+              height: 100,
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(137, 108, 254, 1),
                 borderRadius: BorderRadius.circular(40),
