@@ -42,7 +42,7 @@ class _SetUp3State extends State<SetUp3> {
       }, SetOptions(merge: true));
 
       // Navigate to MyHomePage
-      Navigator.pushReplacementNamed(context, '/myhomepage');
+      Navigator.pushReplacementNamed(context, '/authenticated');
       // Navigate to MyHomePage
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

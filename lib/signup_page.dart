@@ -22,10 +22,13 @@ class _SignupPageState extends State<SignupPage> {
   bool isLoading = false;
 
   void signUpUser() async {
+    print("🔁 Signup initiated");
+
     if (nameController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
         confirmPasswordController.text.isEmpty) {
+      print("⚠️ Fields are empty");
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('All fields are required')));
@@ -33,6 +36,7 @@ class _SignupPageState extends State<SignupPage> {
     }
 
     if (passwordController.text != confirmPasswordController.text) {
+      print("❌ Passwords do not match");
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
@@ -43,22 +47,25 @@ class _SignupPageState extends State<SignupPage> {
       isLoading = true;
     });
 
+    print("📩 Sending signup request...");
     String res = await AuthServices().signUpUser(
       email: emailController.text.trim(),
       name: nameController.text.trim(),
       password: passwordController.text,
     );
 
+    print("📬 Response from AuthServices: $res");
+
     if (res == "success") {
+      print("✅ Signup successful. Navigating to SetUp page.");
       setState(() {
         isLoading = false;
       });
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const SetUp(),
-        ),
-      );
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (context) => const SetUp()));
     } else {
+      print("❌ Signup failed. Error: $res");
       setState(() {
         isLoading = false;
       });

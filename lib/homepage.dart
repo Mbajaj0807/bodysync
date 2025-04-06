@@ -1,8 +1,8 @@
 import 'package:bodysync/Dashboard_card.dart';
+import 'package:bodysync/nutrition.dart';
 import 'package:bodysync/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
-import 'package:bodysync/nutrition.dart';
 import 'package:bodysync/progress_tracking.dart';
 import 'widgets/exercise_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Services/authentication.dart';
 import 'Services/data_fetch.dart';
 import 'chat_ui.dart';
+import 'nutrition.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -331,9 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   _buildNavItem('assets/icon3.png', () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const Nutrition(),
-                      ),
+                      MaterialPageRoute(builder: (context) => Nutrition()),
                     );
                   }),
                   _verticalDivider(),
