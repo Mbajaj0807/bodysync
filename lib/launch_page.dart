@@ -42,6 +42,7 @@ class LaunchPage extends StatelessWidget {
               ),
             ),
             RichText(
+              textAlign: TextAlign.center,
               text: TextSpan(
                 style: const TextStyle(
                   fontSize: 25,

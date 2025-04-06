@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Services/authentication.dart';
 import 'Services/data_fetch.dart';
+import 'chat_ui.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -161,10 +162,22 @@ class _MyHomePageState extends State<MyHomePage> {
         iconTheme: IconThemeData(color: Color.fromRGBO(137, 108, 254, 1)),
         elevation: 0,
         backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+        leading: Padding(
+          padding: const EdgeInsets.only(
+            top: 10,
+          ), // Adjust this value as needed
+          child: Builder(
+            builder:
+                (context) => IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
+          ),
+        ),
         flexibleSpace: Container(
           key: const ValueKey('AppBar'),
           height: 120,
-          padding: const EdgeInsets.only(left: 14, top: 30),
+          padding: const EdgeInsets.only(left: 10, top: 30),
           child: FutureBuilder<String?>(
             future: getUserName(),
             builder: (context, snapshot) {
@@ -180,22 +193,25 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Text(
                       'Hi $displayName',
                       style: const TextStyle(
-                        fontSize: 27,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Color.fromRGBO(137, 108, 254, 1),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 29, right: 15),
-                    child: _buildNavItem('assets/profile-user.png', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ProfilePage(),
-                        ),
-                      );
-                    }),
+                    padding: const EdgeInsets.only(top: 22, right: 15),
+                    child: SizedBox(
+                      height: 25,
+                      child: _buildNavItem('assets/profile-user.png', () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProfilePage(),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ],
               );
@@ -212,20 +228,25 @@ class _MyHomePageState extends State<MyHomePage> {
             bottom: 100,
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(5),
                 child: Column(
                   children: [
                     const Text(
+                      textAlign: TextAlign.center,
                       'Click on the body part you want to train',
                       style: TextStyle(
                         color: Color.fromRGBO(226, 241, 99, 1),
                         fontSize: 20,
                       ),
                     ),
-                    SizedBox(
-                      height: 650,
-                      width: 300,
-                      child: Image.asset('assets/Dummy_model.png'),
+                    SizedBox(height: 1),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0),
+                      child: SizedBox(
+                        height: 650,
+                        width: 300,
+                        child: Image.asset('assets/Dummy_model.png'),
+                      ),
                     ),
                     DashboardCard(),
 
@@ -274,7 +295,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
 
-          // ✅ Bottom Navigation Bar
+          // Bottom Navigation Bar
           Positioned(
             left: 5,
             bottom: 20,
@@ -290,7 +311,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildNavItem('assets/icon1.png', () {
-                    print('Pressed');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AIFitnessChatPage(),
+                      ),
+                    );
                   }),
                   _verticalDivider(),
                   _buildNavItem('assets/icon2.png', () {

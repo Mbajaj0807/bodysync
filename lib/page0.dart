@@ -24,6 +24,7 @@ class Page0 extends StatelessWidget {
               ),
             ),
             RichText(
+              textAlign: TextAlign.center,
               text: TextSpan(
                 style: TextStyle(
                   fontSize: 25,
