@@ -77,8 +77,7 @@ class _SetUp2State extends State<SetUp2> {
           'age': age,
           'weight': weight,
           'height': height,
-          'maintenanceCalories':
-              maintenanceCalories.round(), // store as integer
+          'maintenanceCalories': maintenanceCalories.round(), // store as integer
         },
       );
 
@@ -186,10 +185,10 @@ class _SetUp2State extends State<SetUp2> {
   }
 
   Widget buildTextField(
-    String label,
-    String hint,
-    TextEditingController controller,
-  ) {
+      String label,
+      String hint,
+      TextEditingController controller,
+      ) {
     return Padding(
       padding: const EdgeInsets.only(top: 40, left: 20, right: 100),
       child: Column(
@@ -205,6 +204,9 @@ class _SetUp2State extends State<SetUp2> {
             child: TextField(
               controller: controller,
               keyboardType: TextInputType.number,
+              style: const TextStyle(
+                color: Colors.white, // ✅ Input text color
+              ),
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
@@ -214,6 +216,7 @@ class _SetUp2State extends State<SetUp2> {
                 border: const OutlineInputBorder(),
                 labelText: hint,
                 labelStyle: const TextStyle(color: Colors.white),
+                hintStyle: const TextStyle(color: Colors.white70), // Optional
               ),
             ),
           ),
