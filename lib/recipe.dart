@@ -3,8 +3,11 @@ class Recipe {
   final String title;
   final String description;
   final String imageUrl;
+  final String calories;
+  final String protein;
+  final String carbs;
 
-  Recipe({required this.id, required this.title, required this.description, required this.imageUrl});
+  Recipe({required this.id, required this.title, required this.description, required this.imageUrl,required this.calories, required this.protein,required this.carbs});
 
   // Convert Recipe to Map (for Firebase)
   Map<String, dynamic> toMap() {
@@ -23,6 +26,9 @@ class Recipe {
       title: data['title'] ?? '',
       description: data['description'] ?? '',
       imageUrl: data['imageUrl'] ?? '',
+      calories:data['calories'] ?? '',
+      protein:data['protein'] ?? '',
+      carbs:data['carbs']??'',
     );
   }
 }
