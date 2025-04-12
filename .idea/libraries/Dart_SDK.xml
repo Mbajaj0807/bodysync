@@ -1,6 +1,4 @@
-<component name="libraryTable">
-  <library name="Dart SDK">
-    <CLASSES>
+
       <root url="file://$PROJECT_DIR$/../../../../flutter_windows_3.29.2-stable/flutter/bin/cache/dart-sdk/lib/_internal" />
       <root url="file://$PROJECT_DIR$/../../../../flutter_windows_3.29.2-stable/flutter/bin/cache/dart-sdk/lib/async" />
       <root url="file://$PROJECT_DIR$/../../../../flutter_windows_3.29.2-stable/flutter/bin/cache/dart-sdk/lib/cli" />
@@ -24,8 +22,3 @@
       <root url="file://$PROJECT_DIR$/../../../../flutter_windows_3.29.2-stable/flutter/bin/cache/dart-sdk/lib/typed_data" />
       <root url="file://$PROJECT_DIR$/../../../../flutter_windows_3.29.2-stable/flutter/bin/cache/dart-sdk/lib/web_audio" />
       <root url="file://$PROJECT_DIR$/../../../../flutter_windows_3.29.2-stable/flutter/bin/cache/dart-sdk/lib/web_gl" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

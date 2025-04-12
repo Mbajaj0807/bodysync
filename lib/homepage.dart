@@ -4,13 +4,12 @@ import 'package:bodysync/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/progress_tracking.dart';
-import 'widgets/exercise_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Services/authentication.dart';
 import 'Services/data_fetch.dart';
 import 'chat_ui.dart';
-import 'nutrition.dart';
+import 'clickable_parts.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -200,19 +199,37 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 22, right: 15),
-                    child: SizedBox(
-                      height: 25,
-                      child: _buildNavItem('assets/profile-user.png', () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ProfilePage(),
-                          ),
-                        );
-                      }),
-                    ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 22, right: 15),
+                        child: SizedBox(
+                          height: 25,
+                          child: _buildNavItem('assets/chatbot.png', () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AIFitnessChatPage(),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 22, right: 15),
+                        child: SizedBox(
+                          height: 25,
+                          child: _buildNavItem('assets/profile-user.png', () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfilePage(),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               );
@@ -240,15 +257,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 20,
                       ),
                     ),
-                    SizedBox(height: 1),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 0),
-                      child: SizedBox(
-                        height: 650,
-                        width: 300,
-                        child: Image.asset('assets/Dummy_model.png'),
+                      child: ClickableBody(
+                        onPartTap: (part) {
+                          print('Tapped on $part');
+                          // TODO: Navigate or update based on selected body part
+                        },
                       ),
                     ),
+
                     DashboardCard(),
 
                     const Align(
@@ -260,32 +279,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                    ),
-
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          ExerciseCard(
-                            exerciseName: 'Push Up',
-                            time: '10 min',
-                            calories: '50',
-                            onTap: () => print('Pressed'),
-                          ),
-                          ExerciseCard(
-                            exerciseName: 'Squats',
-                            time: '15 min',
-                            calories: '80',
-                            onTap: () => print('Pressed'),
-                          ),
-                          ExerciseCard(
-                            exerciseName: 'Plank',
-                            time: '5 min',
-                            calories: '30',
-                            onTap: () => print('Pressed'),
-                          ),
-                        ],
                       ),
                     ),
 
@@ -311,14 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildNavItem('assets/icon1.png', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AIFitnessChatPage(),
-                      ),
-                    );
-                  }),
+                  _buildNavItem('assets/icon1.png', () {}),
                   _verticalDivider(),
                   _buildNavItem('assets/icon2.png', () {
                     Navigator.push(
@@ -344,7 +330,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     );
                   }),
-                ],
+                  ],
               ),
             ),
           ),
