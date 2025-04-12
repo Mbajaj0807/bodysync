@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 void updateDetailsDialog(BuildContext context) {
   final TextEditingController weightController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
+
+
 
   showDialog(
     context: context,
@@ -187,5 +190,7 @@ void updateDetailsDialog(BuildContext context) {
             ),
           ),
         ),
+
+
   );
 }
