@@ -5,12 +5,10 @@ import 'package:bodysync/Workout/legs.dart';
 import 'package:bodysync/Workout/tricep.dart';
 import 'package:bodysync/Workout/shoulders.dart';
 import 'package:bodysync/Workout/chest.dart';
-
 import 'package:flutter/material.dart';
 
 class ClickableBody extends StatelessWidget {
   final void Function(String bodyPart) onPartTap;
-
   const ClickableBody({super.key, required this.onPartTap});
 
   @override
@@ -63,7 +61,6 @@ class ClickableBody extends StatelessWidget {
         _isInRegion(dx, dy, 0.242664, 0.198822, 0.257604, 0.047128)) {
       return 'Shoulder';
     }
-
     return 'Unknown';
   }
 
@@ -170,7 +167,6 @@ class ClickableBody extends StatelessWidget {
 
         break;
       default:
-        // Optional: Handle unknown body part
         break;
     }
   }

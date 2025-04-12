@@ -4,13 +4,11 @@ import 'package:bodysync/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/progress_tracking.dart';
-import 'widgets/exercise_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Services/authentication.dart';
 import 'Services/data_fetch.dart';
 import 'chat_ui.dart';
-import 'nutrition.dart';
 import 'clickable_parts.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -284,32 +282,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
 
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          ExerciseCard(
-                            exerciseName: 'Push Up',
-                            time: '10 min',
-                            calories: '50',
-                            onTap: () => print('Pressed'),
-                          ),
-                          ExerciseCard(
-                            exerciseName: 'Squats',
-                            time: '15 min',
-                            calories: '80',
-                            onTap: () => print('Pressed'),
-                          ),
-                          ExerciseCard(
-                            exerciseName: 'Plank',
-                            time: '5 min',
-                            calories: '30',
-                            onTap: () => print('Pressed'),
-                          ),
-                        ],
-                      ),
-                    ),
-
                     Container(height: 500),
                   ],
                 ),
@@ -332,14 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildNavItem('assets/icon1.png', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AIFitnessChatPage(),
-                      ),
-                    );
-                  }),
+                  _buildNavItem('assets/icon1.png', () {}),
                   _verticalDivider(),
                   _buildNavItem('assets/icon2.png', () {
                     Navigator.push(
@@ -365,7 +330,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     );
                   }),
-                ],
+                  ],
               ),
             ),
           ),
