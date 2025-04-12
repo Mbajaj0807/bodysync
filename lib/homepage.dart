@@ -11,6 +11,7 @@ import 'Services/authentication.dart';
 import 'Services/data_fetch.dart';
 import 'chat_ui.dart';
 import 'nutrition.dart';
+import 'clickable_parts.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -208,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  ProfilePage(),
+                            builder: (context) => ProfilePage(),
                           ),
                         );
                       }),
@@ -240,15 +241,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 20,
                       ),
                     ),
-                    SizedBox(height: 1),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 0),
-                      child: SizedBox(
-                        height: 650,
-                        width: 300,
-                        child: Image.asset('assets/Dummy_model.png'),
+                      child: ClickableBody(
+                        onPartTap: (part) {
+                          print('Tapped on $part');
+                          // TODO: Navigate or update based on selected body part
+                        },
                       ),
                     ),
+
                     DashboardCard(),
 
                     const Align(

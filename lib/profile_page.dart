@@ -8,10 +8,11 @@ class ProfilePage extends StatelessWidget {
   Future<Map<String, dynamic>?> getUserData() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      DocumentSnapshot doc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+      DocumentSnapshot doc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
 
       if (doc.exists) {
         return doc.data() as Map<String, dynamic>;
@@ -33,13 +34,16 @@ class ProfilePage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-                child: CircularProgressIndicator(color: Colors.purple));
+              child: CircularProgressIndicator(color: Colors.purple),
+            );
           }
 
           if (!snapshot.hasData || snapshot.data == null) {
             return const Center(
-              child:
-              Text("No user data found", style: TextStyle(color: Colors.white)),
+              child: Text(
+                "No user data found",
+                style: TextStyle(color: Colors.white),
+              ),
             );
           }
 
@@ -61,44 +65,62 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     const CircleAvatar(
                       radius: 50,
-                      backgroundImage:
-                      AssetImage('assets/profile.jpg'), // Update if needed
+                      backgroundImage: AssetImage(
+                        'assets/profile-user.png',
+                      ), // Update if needed
                     ),
                     const SizedBox(height: 10),
-                    Text(name,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold)),
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Text(email, style: const TextStyle(color: Colors.white)),
-                    Text("Birthday: $birthday",
-                        style: const TextStyle(color: Colors.white)),
+                    Text(
+                      "Birthday: $birthday",
+                      style: const TextStyle(color: Colors.white),
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(
                           children: [
-                            Text("${weight.toStringAsFixed(1)} Kg",
-                                style: const TextStyle(color: Colors.white)),
-                            const Text("Weight",
-                                style: TextStyle(color: Colors.white)),
+                            Text(
+                              "${weight.toStringAsFixed(1)} Kg",
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            const Text(
+                              "Weight",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ],
                         ),
                         Column(
                           children: [
-                            Text("$age",
-                                style: const TextStyle(color: Colors.white)),
-                            const Text("Years Old",
-                                style: TextStyle(color: Colors.white)),
+                            Text(
+                              "$age",
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            const Text(
+                              "Years Old",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ],
                         ),
                         Column(
                           children: [
-                            Text("${height.toStringAsFixed(2)} cm",
-                                style: const TextStyle(color: Colors.white)),
-                            const Text("Height",
-                                style: TextStyle(color: Colors.white)),
+                            Text(
+                              "${height.toStringAsFixed(2)} cm",
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            const Text(
+                              "Height",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ],
                         ),
                       ],
@@ -113,14 +135,32 @@ class ProfilePage extends StatelessWidget {
                   color: Color.fromRGBO(35, 35, 35, 1),
                   child: ListView(
                     children: [
-                      _buildMenuItem(context, Icons.star, "Favorite", "/favorites"),
                       _buildMenuItem(
-                          context, Icons.policy, "Privacy Policy", "/privacy"),
+                        context,
+                        Icons.star,
+                        "Favorite",
+                        "/favorites",
+                      ),
                       _buildMenuItem(
-                          context, Icons.settings, "Settings", "/settings"),
+                        context,
+                        Icons.policy,
+                        "Privacy Policy",
+                        "/privacy",
+                      ),
+                      _buildMenuItem(
+                        context,
+                        Icons.settings,
+                        "Settings",
+                        "/settings",
+                      ),
                       _buildMenuItem(context, Icons.help, "Help", "/help"),
-                      _buildMenuItem(context, Icons.logout, "Logout", "/login",
-                          isLogout: true),
+                      _buildMenuItem(
+                        context,
+                        Icons.logout,
+                        "Logout",
+                        "/login",
+                        isLogout: true,
+                      ),
                     ],
                   ),
                 ),
@@ -144,9 +184,13 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(BuildContext context, IconData icon, String title,
-      String routeName,
-      {bool isLogout = false}) {
+  Widget _buildMenuItem(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String routeName, {
+    bool isLogout = false,
+  }) {
     return ListTile(
       leading: Icon(icon, color: Color.fromRGBO(137, 108, 254, 1)),
       title: Text(title, style: const TextStyle(color: Colors.white)),
@@ -154,7 +198,11 @@ class ProfilePage extends StatelessWidget {
       onTap: () async {
         if (isLogout) {
           await FirebaseAuth.instance.signOut();
-          Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            routeName,
+            (route) => false,
+          );
         } else {
           Navigator.pushNamed(context, routeName);
         }
