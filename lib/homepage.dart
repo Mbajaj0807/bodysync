@@ -201,19 +201,37 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 22, right: 15),
-                    child: SizedBox(
-                      height: 25,
-                      child: _buildNavItem('assets/profile-user.png', () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(),
-                          ),
-                        );
-                      }),
-                    ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 22, right: 15),
+                        child: SizedBox(
+                          height: 25,
+                          child: _buildNavItem('assets/chatbot.png', () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AIFitnessChatPage(),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 22, right: 15),
+                        child: SizedBox(
+                          height: 25,
+                          child: _buildNavItem('assets/profile-user.png', () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfilePage(),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               );
