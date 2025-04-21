@@ -1,4 +1,5 @@
 import 'package:bodysync/Dashboard_card.dart';
+import 'package:bodysync/Workout/bicep.dart';
 import 'package:bodysync/nutrition.dart';
 import 'package:bodysync/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -131,7 +132,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               ListTile(
-                title: Text('Button 1', style: TextStyle(color: Colors.white)),
+                title: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BicepsWorkout()),
+                    );
+                  },
+                  child: Text(
+                    'Button 1',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
               ListTile(
                 title: Text('Button 2', style: TextStyle(color: Colors.white)),
@@ -279,6 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     StatCard(),
+                    SizedBox(height: 100),
                     DailyQuizCard(),
                     DashboardCard(),
                     Container(height: 500),
