@@ -13,49 +13,59 @@ class AbsWorkout extends StatelessWidget {
         title: const Text('Abs'),
         backgroundColor: const Color.fromRGBO(137, 108, 254, 1),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('workouts')
-            .doc('abs')
-            .collection('items')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: SafeArea(
+        child: StreamBuilder<QuerySnapshot>(
+          stream:
+              FirebaseFirestore.instance
+                  .collection('workouts')
+                  .doc('abs')
+                  .collection('items')
+                  .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
-              child: Text(
-                'No exercises found',
-                style: TextStyle(color: Colors.white),
-              ),
-            );
-          }
-
-          final exercises = snapshot.data!.docs;
-
-          return ListView.builder(
-            padding: const EdgeInsets.all(12.0),
-            itemCount: exercises.length,
-            itemBuilder: (context, index) {
-              final data = exercises[index].data() as Map<String, dynamic>;
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: ExerciseCard(
-                  exerciseName: data['name'] ?? 'Unknown',
-                  time: data['time'] ?? '0min',
-                  calories: data['calories']?.toString() ?? '0',
-                  imagePath: data['image'] ?? 'assets/back.jpg',
-                  onTap: () {
-                    print('Tapped on: ${data['name']}');
-                  },
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Center(
+                child: Text(
+                  'No exercises found',
+                  style: TextStyle(color: Colors.white),
                 ),
               );
-            },
-          );
+            }
 
-        },
+            final exercises = snapshot.data!.docs;
+
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 12.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children:
+                      exercises.map((doc) {
+                        final data = doc.data() as Map<String, dynamic>;
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: ExerciseCard(
+                            exerciseName: data['name'] ?? 'Unknown',
+                            time: data['time'] ?? '0min',
+                            calories: data['calories']?.toString() ?? '0',
+                            imagePath: data['imagepath'] ?? 'assets/back.jpg',
+                            onTap: () {
+                              // Handle tap if needed
+                            },
+                          ),
+                        );
+                      }).toList(),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
