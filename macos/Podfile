@@ -40,3 +40,12 @@ post_install do |installer|
     flutter_additional_macos_build_settings(target)
   end
 end
+platform :osx, '10.15'
+
+target 'Runner' do
+  use_frameworks!
+  pod 'FlutterMacOS'
+  # Other pod dependencies
+end
+
+
