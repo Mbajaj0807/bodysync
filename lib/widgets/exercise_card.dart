@@ -39,7 +39,7 @@ class ExerciseCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
@@ -49,8 +49,7 @@ class ExerciseCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(width: 60),
-            // Exercise Info
+            const SizedBox(width: 60), // You can reduce this if needed
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,6 +57,7 @@ class ExerciseCard extends StatelessWidget {
                 children: [
                   Text(
                     exerciseName,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -73,7 +73,13 @@ class ExerciseCard extends StatelessWidget {
                         color: Color.fromRGBO(137, 108, 254, 1),
                       ),
                       const SizedBox(width: 4),
-                      Text(time, style: const TextStyle(color: Colors.white)),
+                      Flexible(
+                        child: Text(
+                          time,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -85,9 +91,12 @@ class ExerciseCard extends StatelessWidget {
                         color: Color.fromRGBO(137, 108, 254, 1),
                       ),
                       const SizedBox(width: 4),
-                      Text(
-                        '$calories kcal',
-                        style: const TextStyle(color: Colors.white),
+                      Flexible(
+                        child: Text(
+                          '$calories kcal',
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
