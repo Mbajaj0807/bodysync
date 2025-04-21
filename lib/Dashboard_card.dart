@@ -54,7 +54,7 @@ class DashboardCard extends StatelessWidget {
                   children: [
                     _buildStatColumn('Current Weight', '$weight'),
                     _buildStatColumn('Height', '$height'),
-                    _buildStatColumn('Calorie Intake', '$maintenanceCalories'),
+                    _buildStatColumn('Calories.', '$maintenanceCalories'),
                   ],
                 ),
                 SizedBox(

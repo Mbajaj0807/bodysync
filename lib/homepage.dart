@@ -10,6 +10,8 @@ import 'Services/authentication.dart';
 import 'Services/data_fetch.dart';
 import 'chat_ui.dart';
 import 'clickable_parts.dart';
+import 'daily_quiz_card.dart';
+import 'stat_card.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -241,8 +243,17 @@ class _MyHomePageState extends State<MyHomePage> {
       // ✅ Main Body
       body: Stack(
         children: [
-          Positioned.fill(
+          Positioned(
             top: 0,
+            child: Container(
+              height: 20,
+              width: MediaQuery.of(context).size.width,
+              color: const Color.fromRGBO(137, 108, 254, 1),
+            ),
+          ),
+
+          Positioned.fill(
+            top: 20,
             bottom: 100,
             child: SingleChildScrollView(
               child: Padding(
@@ -267,21 +278,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
                     ),
-
+                    StatCard(),
+                    DailyQuizCard(),
                     DashboardCard(),
-
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Recommendations',
-                        style: TextStyle(
-                          color: Color.fromRGBO(226, 241, 99, 1),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-
                     Container(height: 500),
                   ],
                 ),
@@ -330,7 +329,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     );
                   }),
-                  ],
+                ],
               ),
             ),
           ),
