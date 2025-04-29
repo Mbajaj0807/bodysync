@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pedometer/pedometer.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class StatCard extends StatefulWidget {
   @override
@@ -15,18 +16,42 @@ class _StatCardState extends State<StatCard> {
   @override
   void initState() {
     super.initState();
-    _initializeStepTracker();  // Initialize step tracker
+
+      _requestPermission();
   }
 
-  // Initialize step tracker
-  void _initializeStepTracker() {
-    _stepCountStream = Pedometer.stepCountStream; // Listen to step count stream
-    _stepCountStream.listen((stepCount) {
-      setState(() {
-        _steps = stepCount.steps; // Update steps
-      });
-    });
+  Future<void> _requestPermission() async{
+    PermissionStatus status=await Permission.activityRecognition.request();
+
+    if(status.isGranted){
+      _startListening();
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Permission to track steps."),
+        action: SnackBarAction(label: "Settings", onPressed: openAppSettings),
+      ));
+    }
   }
+
+  void _startListening(){
+    _stepCountStream=Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+  }
+
+  void onStepCount(StepCount event){
+    setState(() {
+      _steps=event.steps;
+    });
+
+  }
+  void onStepCountError(error){
+    print("Step count error: $error");
+
+  }
+
+
+
+
+
 
   Widget build(BuildContext context) {
     return Center(
