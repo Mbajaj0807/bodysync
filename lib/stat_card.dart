@@ -1,8 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pedometer/pedometer.dart';
 
-class StatCard extends StatelessWidget {
+class StatCard extends StatefulWidget {
   @override
+  _StatCardState createState() => _StatCardState();
+}
+
+class _StatCardState extends State<StatCard> {
+  int _steps = 0;  // Variable to store steps
+
+  late Stream<StepCount> _stepCountStream;  // Stream to listen for step count changes
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeStepTracker();  // Initialize step tracker
+  }
+
+  // Initialize step tracker
+  void _initializeStepTracker() {
+    _stepCountStream = Pedometer.stepCountStream; // Listen to step count stream
+    _stepCountStream.listen((stepCount) {
+      setState(() {
+        _steps = stepCount.steps; // Update steps
+      });
+    });
+  }
+
   Widget build(BuildContext context) {
     return Center(
       child: Container(
@@ -60,7 +85,7 @@ class StatCard extends StatelessWidget {
                     children: [
                       Image.asset('assets/sneaker.png', height: 35, width: 100),
                       Text(
-                        '500',
+                        '$_steps',
                         style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
