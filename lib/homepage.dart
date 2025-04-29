@@ -5,6 +5,7 @@ import 'package:bodysync/nutrition.dart';
 import 'package:bodysync/premium.dart';
 import 'package:bodysync/profile_page.dart';
 import 'package:bodysync/widgets/articlecard.dart';
+import 'package:bodysync/workouts.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/progress_tracking.dart';
@@ -396,7 +397,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildNavItem('assets/icon1.png', () {}),
+                  _buildNavItem('assets/icon1.png', () {
+                    Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context)=>  Workouts()));
+                  }),
                   _verticalDivider(),
                   _buildNavItem('assets/icon2.png', () {
                     Navigator.push(
