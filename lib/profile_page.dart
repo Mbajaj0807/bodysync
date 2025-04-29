@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'widgets/tnc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -65,9 +66,7 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     const CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage(
-                        'assets/profile-user.png',
-                      ), // Update if needed
+                      backgroundImage: AssetImage('assets/profile-user.png'),
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -135,31 +134,113 @@ class ProfilePage extends StatelessWidget {
                   color: Color.fromRGBO(35, 35, 35, 1),
                   child: ListView(
                     children: [
-                      _buildMenuItem(
-                        context,
-                        Icons.star,
-                        "Favorite",
-                        "/favorites",
+                      ListTile(
+                        leading: Icon(
+                          Icons.star,
+                          color: Color.fromRGBO(137, 108, 254, 1),
+                        ),
+                        title: Text(
+                          "Favorite",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const FavoritePage(),
+                            ),
+                          );
+                        },
                       ),
-                      _buildMenuItem(
-                        context,
-                        Icons.policy,
-                        "Privacy Policy",
-                        "/privacy",
+                      ListTile(
+                        leading: Icon(
+                          Icons.policy,
+                          color: Color.fromRGBO(137, 108, 254, 1),
+                        ),
+                        title: Text(
+                          "Privacy Policy",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          // Directly show Terms and Conditions when "Privacy Policy" is tapped
+                          TermsAndConditions.show(context);
+                        },
                       ),
-                      _buildMenuItem(
-                        context,
-                        Icons.settings,
-                        "Settings",
-                        "/settings",
+                      ListTile(
+                        leading: Icon(
+                          Icons.settings,
+                          color: Color.fromRGBO(137, 108, 254, 1),
+                        ),
+                        title: Text(
+                          "Settings",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SettingsPage(),
+                            ),
+                          );
+                        },
                       ),
-                      _buildMenuItem(context, Icons.help, "Help", "/help"),
-                      _buildMenuItem(
-                        context,
-                        Icons.logout,
-                        "Logout",
-                        "/login",
-                        isLogout: true,
+                      ListTile(
+                        leading: Icon(
+                          Icons.help,
+                          color: Color.fromRGBO(137, 108, 254, 1),
+                        ),
+                        title: Text(
+                          "Help",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HelpPage(),
+                            ),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.logout,
+                          color: Color.fromRGBO(137, 108, 254, 1),
+                        ),
+                        title: Text(
+                          "Logout",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                            (route) => false,
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -183,30 +264,37 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildMenuItem(
-    BuildContext context,
-    IconData icon,
-    String title,
-    String routeName, {
-    bool isLogout = false,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: Color.fromRGBO(137, 108, 254, 1)),
-      title: Text(title, style: const TextStyle(color: Colors.white)),
-      trailing: const Icon(Icons.arrow_forward, color: Colors.white),
-      onTap: () async {
-        if (isLogout) {
-          await FirebaseAuth.instance.signOut();
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            routeName,
-            (route) => false,
-          );
-        } else {
-          Navigator.pushNamed(context, routeName);
-        }
-      },
-    );
+// Example placeholder pages for the navigation
+class FavoritePage extends StatelessWidget {
+  const FavoritePage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text("Favorites Page")));
+  }
+}
+
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text("Settings Page")));
+  }
+}
+
+class HelpPage extends StatelessWidget {
+  const HelpPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text("Help Page")));
+  }
+}
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text("Login Page")));
   }
 }

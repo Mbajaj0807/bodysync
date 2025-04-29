@@ -116,7 +116,8 @@ class StatCard extends StatelessWidget {
                     children: [
                       Image.asset('assets/sleep.png', height: 30, width: 100),
                       Text(
-                        '500',
+                        'Device Not Found',
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,

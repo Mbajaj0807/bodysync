@@ -1,7 +1,10 @@
 import 'package:bodysync/Dashboard_card.dart';
 import 'package:bodysync/Workout/bicep.dart';
+import 'package:bodysync/joingym.dart';
 import 'package:bodysync/nutrition.dart';
+import 'package:bodysync/premium.dart';
 import 'package:bodysync/profile_page.dart';
+import 'package:bodysync/widgets/articlecard.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/progress_tracking.dart';
@@ -32,6 +35,15 @@ Widget _verticalDivider() {
     width: 10,
     indent: 30,
     endIndent: 30,
+  );
+}
+
+Widget _horizontalDivider() {
+  return const Divider(
+    color: Color.fromRGBO(137, 108, 254, 0.5),
+    thickness: 1,
+    indent: 10,
+    endIndent: 10,
   );
 }
 
@@ -69,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             children: [
               SizedBox(
-                height: 190,
+                height: 210,
                 child: DrawerHeader(
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(137, 108, 254, 1),
@@ -105,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           String displayName = userData['name'] ?? 'Guest';
                           String userTag = userData['userTag'] ?? 'Unknown0000';
                           return Padding(
-                            padding: const EdgeInsets.only(top: 5),
+                            padding: const EdgeInsets.only(top: 5, bottom: 0),
                             child: Column(
                               children: [
                                 Text(
@@ -117,6 +129,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 Text(
                                   'User id: $userTag',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  'Not a member of any gym',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
@@ -136,35 +155,49 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BicepsWorkout()),
+                      MaterialPageRoute(builder: (context) => GoPremium()),
                     );
                   },
                   child: Text(
-                    'Button 1',
-                    style: TextStyle(color: Colors.white),
+                    'Go Premium',
+                    style: TextStyle(color: Color.fromRGBO(137, 108, 254, 1)),
                   ),
                 ),
               ),
+              _horizontalDivider(),
               ListTile(
-                title: Text('Button 2', style: TextStyle(color: Colors.white)),
-              ),
-              ListTile(
-                title: Text('Button 3', style: TextStyle(color: Colors.white)),
-              ),
-              ListTile(
-                title: Text('Button 4', style: TextStyle(color: Colors.white)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 0),
-                child: ListTile(
-                  title: Text('LogOut', style: TextStyle(color: Colors.white)),
-                  onTap: () async {
-                    await authServices.signOut();
-                    if (mounted) {
-                      Navigator.pushReplacementNamed(context, "/login");
-                    }
+                title: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => JoinGym()),
+                    );
                   },
+                  child: Text(
+                    'Join Your Gym',
+                    style: TextStyle(color: Color.fromRGBO(137, 108, 254, 1)),
+                  ),
                 ),
+              ),
+              _horizontalDivider(),
+              ListTile(
+                title: Text(
+                  'Delete Account',
+                  style: TextStyle(color: Color.fromRGBO(137, 108, 254, 1)),
+                ),
+              ),
+              _horizontalDivider(),
+              ListTile(
+                title: Text(
+                  'LogOut',
+                  style: TextStyle(color: Color.fromRGBO(137, 108, 254, 1)),
+                ),
+                onTap: () async {
+                  await authServices.signOut();
+                  if (mounted) {
+                    Navigator.pushReplacementNamed(context, "/login");
+                  }
+                },
               ),
             ],
           ),
@@ -258,9 +291,10 @@ class _MyHomePageState extends State<MyHomePage> {
           Positioned(
             top: 0,
             child: Container(
+              //Add Marquee Here
               height: 20,
               width: MediaQuery.of(context).size.width,
-              color: const Color.fromRGBO(137, 108, 254, 1),
+              color: const Color.fromARGB(255, 3, 3, 3),
             ),
           ),
 
@@ -293,7 +327,42 @@ class _MyHomePageState extends State<MyHomePage> {
                     StatCard(),
                     SizedBox(height: 100),
                     DailyQuizCard(),
+                    SizedBox(height: 20),
                     DashboardCard(),
+                    const SizedBox(height: 20),
+                    Container(
+                      height: 180,
+                      width: MediaQuery.of(context).size.width,
+                      color: Color.fromRGBO(137, 108, 254, 1),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ArticleCard(
+                              imagePath: 'assets/shoulder.jpg',
+                              title: '15 Ways to Burn 150 Calories',
+                              body: 'Shoulder Workout',
+                            ),
+                            ArticleCard(
+                              imagePath: 'assets/shoulder.jpg',
+                              title: 'A 30-minute, Do-Anywhere HIIT Workout ',
+                              body: 'A 30-minute, Do-Anywhere HIIT Workout ',
+                            ),
+                            ArticleCard(
+                              imagePath: 'assets/shoulder.jpg',
+                              title: 'How to Use Resistance Bands',
+                              body: 'Shoulder Workout',
+                            ),
+                            ArticleCard(
+                              imagePath: 'assets/shoulder.jpg',
+                              title: 'Are There Negative Effects of Walking',
+                              body: 'Shoulder Workout',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
                     Container(height: 500),
                   ],
                 ),

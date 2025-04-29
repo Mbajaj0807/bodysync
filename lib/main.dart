@@ -1,4 +1,5 @@
 import 'package:bodysync/page0.dart';
+import 'package:bodysync/widgets/tnc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'launch_page.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LaunchPage(), // initial route
         
         '/login': (context) => const LoginPage(),
+        
         '/signup': (context) => SignupPage(),
         '/unauthenticated': (context) => const Page0(), // not logged in
         '/authenticated':
