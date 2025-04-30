@@ -1,8 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pedometer/pedometer.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class StatCard extends StatelessWidget {
+class StatCard extends StatefulWidget {
   @override
+  _StatCardState createState() => _StatCardState();
+}
+
+class _StatCardState extends State<StatCard> {
+  int _steps = 0;  // Variable to store steps
+
+  late Stream<StepCount> _stepCountStream;  // Stream to listen for step count changes
+
+  @override
+  void initState() {
+    super.initState();
+
+      _requestPermission();
+  }
+
+  Future<void> _requestPermission() async{
+    PermissionStatus status=await Permission.activityRecognition.request();
+
+    if(status.isGranted){
+      _startListening();
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Permission to track steps."),
+        action: SnackBarAction(label: "Settings", onPressed: openAppSettings),
+      ));
+    }
+  }
+
+  void _startListening(){
+    _stepCountStream=Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+  }
+
+  void onStepCount(StepCount event){
+    setState(() {
+      _steps=event.steps;
+    });
+
+  }
+  void onStepCountError(error){
+    print("Step count error: $error");
+
+  }
+
+
+
+
+
+
   Widget build(BuildContext context) {
     return Center(
       child: Container(
@@ -60,7 +110,7 @@ class StatCard extends StatelessWidget {
                     children: [
                       Image.asset('assets/sneaker.png', height: 35, width: 100),
                       Text(
-                        '500',
+                        '$_steps',
                         style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,

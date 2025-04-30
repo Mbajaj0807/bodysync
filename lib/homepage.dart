@@ -5,11 +5,13 @@ import 'package:bodysync/nutrition.dart';
 import 'package:bodysync/premium.dart';
 import 'package:bodysync/profile_page.dart';
 import 'package:bodysync/widgets/articlecard.dart';
+import 'package:bodysync/workouts.dart';
 import 'package:flutter/material.dart';
 import 'package:bodysync/community.dart';
 import 'package:bodysync/progress_tracking.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pedometer/pedometer.dart';
 import 'Services/authentication.dart';
 import 'Services/data_fetch.dart';
 import 'chat_ui.dart';
@@ -17,6 +19,9 @@ import 'clickable_parts.dart';
 import 'daily_quiz_card.dart';
 import 'stat_card.dart';
 
+
+
+int _steps=0;
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -25,7 +30,13 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+
+
 }
+
+
+
+
 
 final AuthServices authServices = AuthServices();
 Widget _verticalDivider() {
@@ -70,6 +81,7 @@ Future<String?> getUserName() async {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
@@ -385,7 +397,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildNavItem('assets/icon1.png', () {}),
+                  _buildNavItem('assets/icon1.png', () {
+                    Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context)=>  Workouts()));
+                  }),
                   _verticalDivider(),
                   _buildNavItem('assets/icon2.png', () {
                     Navigator.push(
@@ -420,3 +436,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
